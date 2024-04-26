@@ -1,0 +1,215 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyP8y5TMDtZUgDqzbhTplgAR",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/ranyelly/Classe/blob/main/Untitled1.ipynb%20Ranyelly\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "f3YLGy2KwHnS",
+        "outputId": "67846e05-3400-4242-e376-df2a7380976b"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Requirement already satisfied: google-generativeai in /usr/local/lib/python3.10/dist-packages (0.5.2)\n",
+            "Requirement already satisfied: google-ai-generativelanguage==0.6.2 in /usr/local/lib/python3.10/dist-packages (from google-generativeai) (0.6.2)\n",
+            "Requirement already satisfied: google-api-core in /usr/local/lib/python3.10/dist-packages (from google-generativeai) (2.11.1)\n",
+            "Requirement already satisfied: google-api-python-client in /usr/local/lib/python3.10/dist-packages (from google-generativeai) (2.84.0)\n",
+            "Requirement already satisfied: google-auth>=2.15.0 in /usr/local/lib/python3.10/dist-packages (from google-generativeai) (2.27.0)\n",
+            "Requirement already satisfied: protobuf in /usr/local/lib/python3.10/dist-packages (from google-generativeai) (3.20.3)\n",
+            "Requirement already satisfied: pydantic in /usr/local/lib/python3.10/dist-packages (from google-generativeai) (2.7.0)\n",
+            "Requirement already satisfied: tqdm in /usr/local/lib/python3.10/dist-packages (from google-generativeai) (4.66.2)\n",
+            "Requirement already satisfied: typing-extensions in /usr/local/lib/python3.10/dist-packages (from google-generativeai) (4.11.0)\n",
+            "Requirement already satisfied: proto-plus<2.0.0dev,>=1.22.3 in /usr/local/lib/python3.10/dist-packages (from google-ai-generativelanguage==0.6.2->google-generativeai) (1.23.0)\n",
+            "Requirement already satisfied: cachetools<6.0,>=2.0.0 in /usr/local/lib/python3.10/dist-packages (from google-auth>=2.15.0->google-generativeai) (5.3.3)\n",
+            "Requirement already satisfied: pyasn1-modules>=0.2.1 in /usr/local/lib/python3.10/dist-packages (from google-auth>=2.15.0->google-generativeai) (0.4.0)\n",
+            "Requirement already satisfied: rsa<5,>=3.1.4 in /usr/local/lib/python3.10/dist-packages (from google-auth>=2.15.0->google-generativeai) (4.9)\n",
+            "Requirement already satisfied: googleapis-common-protos<2.0.dev0,>=1.56.2 in /usr/local/lib/python3.10/dist-packages (from google-api-core->google-generativeai) (1.63.0)\n",
+            "Requirement already satisfied: requests<3.0.0.dev0,>=2.18.0 in /usr/local/lib/python3.10/dist-packages (from google-api-core->google-generativeai) (2.31.0)\n",
+            "Requirement already satisfied: httplib2<1dev,>=0.15.0 in /usr/local/lib/python3.10/dist-packages (from google-api-python-client->google-generativeai) (0.22.0)\n",
+            "Requirement already satisfied: google-auth-httplib2>=0.1.0 in /usr/local/lib/python3.10/dist-packages (from google-api-python-client->google-generativeai) (0.1.1)\n",
+            "Requirement already satisfied: uritemplate<5,>=3.0.1 in /usr/local/lib/python3.10/dist-packages (from google-api-python-client->google-generativeai) (4.1.1)\n",
+            "Requirement already satisfied: annotated-types>=0.4.0 in /usr/local/lib/python3.10/dist-packages (from pydantic->google-generativeai) (0.6.0)\n",
+            "Requirement already satisfied: pydantic-core==2.18.1 in /usr/local/lib/python3.10/dist-packages (from pydantic->google-generativeai) (2.18.1)\n",
+            "Requirement already satisfied: grpcio<2.0dev,>=1.33.2 in /usr/local/lib/python3.10/dist-packages (from google-api-core->google-generativeai) (1.62.2)\n",
+            "Requirement already satisfied: grpcio-status<2.0.dev0,>=1.33.2 in /usr/local/lib/python3.10/dist-packages (from google-api-core->google-generativeai) (1.48.2)\n",
+            "Requirement already satisfied: pyparsing!=3.0.0,!=3.0.1,!=3.0.2,!=3.0.3,<4,>=2.4.2 in /usr/local/lib/python3.10/dist-packages (from httplib2<1dev,>=0.15.0->google-api-python-client->google-generativeai) (3.1.2)\n",
+            "Requirement already satisfied: pyasn1<0.7.0,>=0.4.6 in /usr/local/lib/python3.10/dist-packages (from pyasn1-modules>=0.2.1->google-auth>=2.15.0->google-generativeai) (0.6.0)\n",
+            "Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.10/dist-packages (from requests<3.0.0.dev0,>=2.18.0->google-api-core->google-generativeai) (3.3.2)\n",
+            "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.10/dist-packages (from requests<3.0.0.dev0,>=2.18.0->google-api-core->google-generativeai) (3.7)\n",
+            "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests<3.0.0.dev0,>=2.18.0->google-api-core->google-generativeai) (2.0.7)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.10/dist-packages (from requests<3.0.0.dev0,>=2.18.0->google-api-core->google-generativeai) (2024.2.2)\n"
+          ]
+        }
+      ],
+      "source": [
+        "!pip install -U google-generativeai\n",
+        "import google.generativeai as genai\n",
+        "from google.colab import userdata\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "GOOGLE_API_KEY=userdata.get('GOOGLE_API_KEY')\n",
+        "genai.configure(api_key=GOOGLE_API_KEY)\n"
+      ],
+      "metadata": {
+        "id": "RZlKcX3nx8Pp"
+      },
+      "execution_count": 17,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "for m in genai.list_models():\n",
+        "  if 'generateContent' in m.supported_generation_methods:\n",
+        "    print(m.name)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 139
+        },
+        "id": "AdoScnol0ie2",
+        "outputId": "54045d21-12c4-4aa3-b20d-26f8f66a4465"
+      },
+      "execution_count": 20,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "models/gemini-1.0-pro\n",
+            "models/gemini-1.0-pro-001\n",
+            "models/gemini-1.0-pro-latest\n",
+            "models/gemini-1.0-pro-vision-latest\n",
+            "models/gemini-1.5-pro-latest\n",
+            "models/gemini-pro\n",
+            "models/gemini-pro-vision\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "model = genai.GenerativeModel('gemini-1.0-pro')"
+      ],
+      "metadata": {
+        "id": "DdSrcs7A0Rsu"
+      },
+      "execution_count": 18,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "response = model.generate_content(\"Como se maquiar\")\n",
+        "print(\"Resposta\", response.text)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 974
+        },
+        "id": "uZnsLk9M0XGH",
+        "outputId": "997f0468-2339-40e5-f8de-c5c1782911a6"
+      },
+      "execution_count": 21,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Resposta **Preparação:**\n",
+            "\n",
+            "* Lave o rosto com um sabonete facial suave e seque com uma toalha limpa.\n",
+            "* Hidrate o rosto com um hidratante adequado ao seu tipo de pele.\n",
+            "* Aplique um primer para criar uma base lisa e ajudar a maquiagem a durar mais tempo.\n",
+            "\n",
+            "**Base:**\n",
+            "\n",
+            "* Escolha uma base que corresponda ao seu tom de pele.\n",
+            "* Aplique a base no rosto com um pincel, esponja ou os dedos, misturando bem nas laterais do rosto e na linha do maxilar.\n",
+            "\n",
+            "**Corretivo:**\n",
+            "\n",
+            "* Aplique um corretivo mais claro que o tom da sua pele sob os olhos para esconder olheiras e imperfeições.\n",
+            "* Você também pode usar corretivo para cobrir espinhas, manchas ou outras imperfeições.\n",
+            "\n",
+            "**Pó:**\n",
+            "\n",
+            "* Aplique um pó translúcido para definir a base e evitar que ela escorra ou fique oleosa.\n",
+            "* Você pode usar um pó bronzeador para adicionar calor ao rosto ou um pó iluminador para destacar áreas específicas.\n",
+            "\n",
+            "**Olhos:**\n",
+            "\n",
+            "* **Sombra:** Aplique sombra nas pálpebras usando um pincel ou os dedos. Comece com uma cor clara na base e adicione gradualmente cores mais escuras no vinco e no canto externo.\n",
+            "* **Delineador:** Desenhe uma linha ao longo da linha dos cílios superiores com um delineador líquido, em gel ou lápis.\n",
+            "* **Rímel:** Aplique rímel nos cílios superiores e inferiores para dar volume e definição.\n",
+            "\n",
+            "**Sobrancelhas:**\n",
+            "\n",
+            "* Preencha as sobrancelhas com um lápis, pó ou gel para sobrancelhas.\n",
+            "* Escove as sobrancelhas para cima para um visual mais natural.\n",
+            "\n",
+            "**Blush:**\n",
+            "\n",
+            "* Aplique blush nas maçãs do rosto usando um pincel. Escolha uma cor que complemente o seu tom de pele.\n",
+            "* Misture bem para evitar linhas duras.\n",
+            "\n",
+            "**Lábios:**\n",
+            "\n",
+            "* Aplique um batom ou gloss nos lábios.\n",
+            "* Você pode delinear os lábios com um lápis de boca para definição adicional.\n",
+            "\n",
+            "**Acabamento:**\n",
+            "\n",
+            "* Borrife um spray fixador para ajudar a maquiagem a durar mais tempo.\n",
+            "* Apare qualquer imperfeição ou retoque com corretivo ou pó, se necessário.\n",
+            "\n",
+            "**Dicas adicionais:**\n",
+            "\n",
+            "* Use pincéis de maquiagem limpos para aplicar e misturar os produtos uniformemente.\n",
+            "* Misture as cores suavemente para criar transições suaves.\n",
+            "* Construa camadas de produtos gradualmente para obter a cobertura e a intensidade desejadas.\n",
+            "* Pratique para encontrar o visual que melhor lhe convém.\n",
+            "* Não tenha medo de experimentar diferentes produtos e técnicas.\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
